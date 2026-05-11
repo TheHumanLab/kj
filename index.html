@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAYLEE-JANE | Operational Architect & Systems Strategist</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #0A0A0A;
+        --bg-soft: #111111;
+        --text: #F5F5F4;
+        --text-muted: #A3A3A3;
+        --accent: #C4B59D;
+        --grid: rgba(196, 181, 157, 0.05);
+        --border: rgba(196, 181, 157, 0.12);
+    }
+    
+    * {
+        scroll-behavior: smooth;
+    }
+    
+    body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: 'Space Grotesk', sans-serif;
+        line-height: 1.8;
+        position: relative;
+        overflow-x: hidden;
+    }
+    
+    .font-display {
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 0.04em;
+    }
+    
+    .font-serif {
+        font-family: 'Cormorant Garamond', serif;
+    }
+    
+    /* Subtle Grid Background */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            linear-gradient(var(--grid) 1px, transparent 1px),
+            linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+        background-size: 64px 64px;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.6;
+    }
+    
+    /* Duotone Portrait Effect */
+    .duotone-wrapper {
+        position: relative;
+        background: var(--bg-soft);
+        overflow: hidden;
+        border-radius: 2px;
+    }
+    
+    .duotone-wrapper::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, var(--bg) 0%, #1a1a1a 100%);
+        mix-blend-mode: multiply;
+        z-index: 2;
+    }
+    
+    .duotone-wrapper::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: var(--accent);
+        mix-blend-mode: screen;
+        opacity: 0.35;
+        z-index: 3;
+    }
+    
+    .duotone-img {
+        filter: grayscale(100%) contrast(1.2) brightness(0.9);
+        mix-blend-mode: luminosity;
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Structural Elements */
+    .section-divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+        margin: 0;
+    }
+    
+    .glass-container {
+        background: rgba(17, 17, 17, 0.4);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .glass-container:hover {
+        border-color: rgba(196, 181, 157, 0.25);
+        background: rgba(17, 17, 17, 0.6);
+        transform: translateY(-2px);
+    }
+    
+    .text-accent {
+        color: var(--accent);
+    }
+    
+    .border-accent {
+        border-color: var(--accent);
+    }
+    
+    .btn-primary {
+        position: relative;
+        overflow: hidden;
+        background: var(--text);
+        color: var(--bg);
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        padding: 1rem 2.5rem;
+        border-radius: 2px;
+        transition: all 0.4s ease;
+        border: 1px solid var(--text);
+    }
+    
+    .btn-primary:hover {
+        background: transparent;
+        color: var(--text);
+        border-color: var(--accent);
+    }
+    
+    .btn-secondary {
+        background: transparent;
+        color: var(--text);
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        padding: 1rem 2.5rem;
+        border-radius: 2px;
+        border: 1px solid var(--border);
+        transition: all 0.4s ease;
+    }
+    
+    .btn-secondary:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: rgba(196, 181, 157, 0.05);
+    }
+    
+    .input-field {
+        background: rgba(17, 17, 17, 0.6);
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        padding: 1rem 1.25rem;
+        color: var(--text);
+        transition: all 0.3s ease;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+    
+    .input-field:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: rgba(17, 17, 17, 0.8);
+    }
+    
+    .input-field::placeholder {
+        color: var(--text-muted);
+        opacity: 0.5;
+    }
+    
+    /* Blueprint Animation */
+    @keyframes drawLine {
+        from { stroke-dashoffset: 1000; }
+        to { stroke-dashoffset: 0; }
+    }
+    
+    .blueprint-line {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        animation: drawLine 2s ease-out forwards;
+    }
+    
+    /* Fade In */
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .fade-up {
+        animation: fadeUp 0.8s ease-out forwards;
+    }
+    
+    /* Table Styles */
+    .case-table th {
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        padding: 1.25rem 1rem;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .case-table td {
+        padding: 2rem 1rem;
+        border-bottom: 1px solid rgba(196, 181, 157, 0.08);
+        vertical-align: top;
+    }
+    
+    .case-table tr:hover {
+        background: rgba(196, 181, 157, 0.03);
+    }
+    
+    /* Navigation */
+    .nav-link {
+        position: relative;
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--accent);
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .nav-link:hover::after {
+        width: 100%;
+    }
+    
+    /* Custom spacing */
+    .section-padding {
+        padding: 8rem 1.5rem;
+    }
+    
+    @media (max-width: 768px) {
+        .section-padding {
+            padding: 5rem 1.25rem;
+        }
+    }
+</style>
+</head>
+<body>
+    <!-- Hidden placeholder for portrait - replace src with container:// path when available -->
+    <img id="portrait-src" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1064&auto=format&fit=crop" hidden alt="">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 border-b border-[rgba(196,181,157,0.08)]" style="background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(16px);">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex items-center justify-between h-20">
+                <div class="font-display text-xl tracking-[0.2em]">
+                    KAYLEE-JANE
+                </div>
+                <div class="hidden md:flex items-center gap-10">
+                    <a href="#solve" class="nav-link text-text-muted hover:text-text">WHAT I SOLVE</a>
+                    <a href="#architecture" class="nav-link text-text-muted hover:text-text">SYSTEMS</a>
+                    <a href="#method" class="nav-link text-text-muted hover:text-text">METHOD</a>
+                    <a href="#enquiries" class="nav-link text-text-muted hover:text-text">CONTACT</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-text-muted">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-[rgba(196,181,157,0.08)] bg-[#0A0A0A]">
+            <div class="px-6 py-6 space-y-4">
+                <a href="#solve" class="block nav-link text-text-muted hover:text-text">WHAT I SOLVE</a>
+                <a href="#architecture" class="block nav-link text-text-muted hover:text-text">SYSTEMS</a>
+                <a href="#method" class="block nav-link text-text-muted hover:text-text">METHOD</a>
+                <a href="#enquiries" class="block nav-link text-text-muted hover:text-text">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-20 section-padding z-10">
+        <div class="max-w-7xl mx-auto w-full px-6 lg:px-12">
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                <!-- Portrait -->
+                <div class="lg:col-span-5 fade-up">
+                    <div class="duotone-wrapper aspect-[3/4] max-w-md mx-auto lg:mx-0">
+                        <img id="portrait" class="duotone-img w-full h-full object-cover" alt="Kaylee-Jane Portrait">
+                    </div>
+                </div>
+                
+                <!-- Copy -->
+                <div class="lg:col-span-7 space-y-10 fade-up" style="animation-delay: 0.2s">
+                    <div class="space-y-8">
+                        <div class="text-xs tracking-[0.3em] text-text-muted uppercase font-medium">
+                            Operational Architect & Systems Strategist
+                        </div>
+                        
+                        <h1 class="font-display text-7xl md:text-8xl lg:text-9xl leading-[0.95] tracking-tight">
+                            KAYLEE-JANE
+                        </h1>
+                        
+                        <div class="w-16 h-[1px] bg-accent"></div>
+                        
+                        <p class="font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.3] text-text font-light italic">
+                            I architect the <span class="text-accent not-italic">operational environments</span> ambitious companies need to scale.
+                        </p>
+                    </div>
+                    
+                    <p class="text-text-muted text-base md:text-lg leading-relaxed max-w-xl font-light">
+                        Structural Intelligence applied to business. I translate complexity into clarity, fragmentation into flow, and ambition into sustainable architecture.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="#enquiries" class="btn-primary">Begin Dialogue</a>
+                        <a href="#architecture" class="btn-secondary">View Framework</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- What I Solve -->
+    <section id="solve" class="section-padding relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="mb-20">
+                <div class="text-xs tracking-[0.3em] text-accent uppercase font-medium mb-6">01 / Diagnosis</div>
+                <h2 class="font-display text-5xl md:text-6xl lg:text-7xl mb-8 leading-tight">WHAT I SOLVE</h2>
+                <p class="font-serif text-xl md:text-2xl text-text-muted max-w-3xl leading-relaxed">
+                    Organizations reach an inflection point where ambition exceeds infrastructure. The symptoms are consistent.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-container p-10 space-y-6">
+                    <div class="text-accent text-sm font-medium tracking-widest">01</div>
+                    <h3 class="font-serif text-2xl leading-tight">Operational Fragmentation</h3>
+                    <p class="text-text-muted text-sm leading-relaxed">
+                        Teams operate in silos. Information lives in disparate systems. Decisions require translation layers. The business works, but it doesn't flow.
+                    </p>
+                </div>
+                
+                <div class="glass-container p-10 space-y-6">
+                    <div class="text-accent text-sm font-medium tracking-widest">02</div>
+                    <h3 class="font-serif text-2xl leading-tight">Structural Ceiling</h3>
+                    <p class="text-text-muted text-sm leading-relaxed">
+                        Growth creates friction. Every new client, hire, or product line demands disproportionate effort. Scale feels like resistance rather than momentum.
+                    </p>
+                </div>
+                
+                <div class="glass-container p-10 space-y-6">
+                    <div class="text-accent text-sm font-medium tracking-widest">03</div>
+                    <h3 class="font-serif text-2xl leading-tight">Strategic Drift</h3>
+                    <p class="text-text-muted text-sm leading-relaxed">
+                        Vision and execution disconnect. Leadership spends time in the weeds. Critical thinking gets replaced by reactive firefighting across departments.
+                    </p>
+                </div>
+                
+                <div class="glass-container p-10 space-y-6">
+                    <div class="text-accent text-sm font-medium tracking-widest">04</div>
+                    <h3 class="font-serif text-2xl leading-tight">Process Debt</h3>
+                    <p class="text-text-muted text-sm leading-relaxed">
+                        Workarounds become workflows. Tribal knowledge replaces documentation. The company runs on heroic effort instead of elegant systems.
+                    </p>
+                </div>
+                
+                <div class="glass-container p-10 space-y-6">
+                    <div class="text-accent text-sm font-medium tracking-widest">05</div>
+                    <h3 class="font-serif text-2xl leading-tight">Misaligned Technology</h3>
+                    <p class="text-text-muted text-sm leading-relaxed">
+                        Tools dictate process instead of enabling it. Stack bloat creates more administrative burden than leverage. Data exists but insight doesn't.
+                    </p>
+                </div>
+                
+                <div class="glass-container p-10 space-y-6">
+                    <div class="text-accent text-sm font-medium tracking-widest">06</div>
+                    <h3 class="font-serif text-2xl leading-tight">Founder Bottleneck</h3>
+                    <p class="text-text-muted text-sm leading-relaxed">
+                        Every decision routes through a single point. Autonomy is stated but not structural. The organization cannot operate beyond the bandwidth of one.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- System Architecture -->
+    <section id="architecture" class="section-padding relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="mb-20">
+                <div class="text-xs tracking-[0.3em] text-accent uppercase font-medium mb-6">02 / Framework</div>
+                <h2 class="font-display text-5xl md:text-6xl lg:text-7xl mb-8 leading-tight">SYSTEM ARCHITECTURE</h2>
+                <p class="font-serif text-xl md:text-2xl text-text-muted max-w-3xl leading-relaxed">
+                    I don't optimize existing processes. I redesign the underlying structure so optimization becomes inherent.
+                </p>
+            </div>
+            
+            <!-- Blueprint Diagram -->
+            <div class="glass-container p-12 lg:p-16 mb-20">
+                <svg viewBox="0 0 800 400" class="w-full h-auto">
+                    <!-- Grid -->
+                    <defs>
+                        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(196,181,157,0.08)" stroke-width="0.5"/>
+                        </pattern>
+                    </defs>
+                    <rect width="800" height="400" fill="url(#grid)"/>
+                    
+                    <!-- Architecture Layers -->
+                    <g stroke="var(--accent)" stroke-width="1.5" fill="none" opacity="0.8">
+                        <rect x="100" y="50" width="600" height="70" class="blueprint-line" style="animation-delay: 0s"/>
+                        <text x="400" y="92" text-anchor="middle" fill="var(--accent)" font-size="11" letter-spacing="0.15em">STRATEGIC INTENT</text>
+                        
+                        <rect x="100" y="140" width="600" height="70" class="blueprint-line" style="animation-delay: 0.3s"/>
+                        <text x="400" y="182" text-anchor="middle" fill="var(--text)" font-size="11" letter-spacing="0.15em">OPERATING SYSTEM</text>
+                        
+                        <rect x="100" y="230" width="600" height="70" class="blueprint-line" style="animation-delay: 0.6s"/>
+                        <text x="400" y="272" text-anchor="middle" fill="var(--text)" font-size="11" letter-spacing="0.15em">TECHNOLOGY LAYER</text>
+                        
+                        <rect x="100" y="320" width="600" height="50" class="blueprint-line" style="animation-delay: 0.9s"/>
+                        <text x="400" y="350" text-anchor="middle" fill="var(--text)" font-size="11" letter-spacing="0.15em">EXECUTION FLOW</text>
+                    </g>
+                    
+                    <!-- Connectors -->
+                    <g stroke="var(--accent)" stroke-width="1" stroke-dasharray="4 4" opacity="0.4">
+                        <line x1="400" y1="120" x2="400" y2="140" />
+                        <line x1="400" y1="210" x2="400" y2="230" />
+                        <line x1="400" y1="300" x2="400" y2="320" />
+                    </g>
+                </svg>
+            </div>
+            
+            <!-- Case Studies Table -->
+            <div class="glass-container overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full case-table">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Engagement</th>
+                                <th class="text-left">Structural Constraint</th>
+                                <th class="text-left">Architectural Intervention</th>
+                                <th class="text-left">Outcome</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <tr>
+                                <td class="font-medium">Series B SaaS</td>
+                                <td class="text-text-muted">Revenue operations required 3 FTEs for reporting that delayed decisions by 11 days</td>
+                                <td class="text-text-muted">Redesigned data architecture + automated intelligence layer across CRM, billing, product</td>
+                                <td class="text-accent font-medium">Real-time revenue visibility.<br>3 FTEs → 0.5 FTE oversight.<br>$2.1M ARR attribution clarity.</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Creative Agency</td>
+                                <td class="text-text-muted">Project margins eroding from scope creep. Client lifecycle managed across 7 tools</td>
+                                <td class="text-text-muted">Unified operating system: single source of truth from prospect to retention</td>
+                                <td class="text-accent font-medium">Margins stabilized at 34%.<br>Admin time reduced 62%.<br>Team capacity increased without hiring.</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Marketplace Platform</td>
+                                <td class="text-text-muted">Two-sided ops team manually reconciling payouts. Error rate at 4.2% monthly</td>
+                                <td class="text-text-muted">Built deterministic payout architecture with exception handling protocol</td>
+                                <td class="text-accent font-medium">Error rate: 4.2% → 0.03%<br>Fully automated reconciliation.<br>Ops team refocused on growth.</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Consulting Firm</td>
+                                <td class="text-text-muted">Partner bottleneck: all client work required founder review before delivery</td>
+                                <td class="text-text-muted">Decision rights framework + delivery architecture with embedded quality standards</td>
+                                <td class="text-accent font-medium">Founder review time: -87%<br>Delivery capacity doubled.<br>Client NPS increased 18pts.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Method -->
+    <section id="method" class="section-padding relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="mb-20">
+                <div class="text-xs tracking-[0.3em] text-accent uppercase font-medium mb-6">03 / Protocol</div>
+                <h2 class="font-display text-5xl md:text-6xl lg:text-7xl mb-8 leading-tight">METHOD</h2>
+                <p class="font-serif text-xl md:text-2xl text-text-muted max-w-3xl leading-relaxed">
+                    Every engagement follows the same structural sequence. The specifics vary. The rigor doesn't.
+                </p>
+            </div>
+            
+            <div class="space-y-1">
+                <div class="glass-container p-12 lg:p-16">
+                    <div class="grid md:grid-cols-12 gap-8 items-start">
+                        <div class="md:col-span-1 text-accent text-sm font-medium tracking-widest">PHASE 01</div>
+                        <div class="md:col-span-3">
+                            <h3 class="font-serif text-2xl leading-tight mb-4">Diagnostic</h3>
+                        </div>
+                        <div class="md:col-span-8 text-text-muted leading-relaxed">
+                            Deep structural analysis of current state. I map information flows, decision rights, tool architecture, and hidden dependencies. We identify where the system leaks energy and where it creates friction. This is not a discovery call. This is x-ray vision.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-container p-12 lg:p-16">
+                    <div class="grid md:grid-cols-12 gap-8 items-start">
+                        <div class="md:col-span-1 text-accent text-sm font-medium tracking-widest">PHASE 02</div>
+                        <div class="md:col-span-3">
+                            <h3 class="font-serif text-2xl leading-tight mb-4">Architecture</h3>
+                        </div>
+                        <div class="md:col-span-8 text-text-muted leading-relaxed">
+                            Design of the target operating system. I create blueprints for process, data, technology, and governance that align to strategic intent. Every element has a purpose. Nothing exists by accident. We build for elegance, not just efficiency.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-container p-12 lg:p-16">
+                    <div class="grid md:grid-cols-12 gap-8 items-start">
+                        <div class="md:col-span-1 text-accent text-sm font-medium tracking-widest">PHASE 03</div>
+                        <div class="md:col-span-3">
+                            <h3 class="font-serif text-2xl leading-tight mb-4">Implementation</h3>
+                        </div>
+                        <div class="md:col-span-8 text-text-muted leading-relaxed">
+                            Phased execution with minimal disruption to revenue. We migrate critical paths first, establish the new skeleton, then flesh out the details. I remain embedded until the system demonstrates it can run without me. Transition, not dependency.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-container p-12 lg:p-16">
+                    <div class="grid md:grid-cols-12 gap-8 items-start">
+                        <div class="md:col-span-1 text-accent text-sm font-medium tracking-widest">PHASE 04</div>
+                        <div class="md:col-span-3">
+                            <h3 class="font-serif text-2xl leading-tight mb-4">Evolution</h3>
+                        </div>
+                        <div class="md:col-span-8 text-text-muted leading-relaxed">
+                            Systems require stewardship. I establish governance protocols, feedback loops, and evolution mechanisms so the architecture adapts as the business does. The goal: a living system that gets smarter over time.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Strategic Enquiries -->
+    <section id="enquiries" class="section-padding relative z-10">
+        <div class="max-w-4xl mx-auto px-6 lg:px-12">
+            <div class="text-center mb-16">
+                <div class="text-xs tracking-[0.3em] text-accent uppercase font-medium mb-6">04 / Contact</div>
+                <h2 class="font-display text-5xl md:text-6xl lg:text-7xl mb-8 leading-tight">STRATEGIC ENQUIRIES</h2>
+                <p class="font-serif text-xl md:text-2xl text-text-muted leading-relaxed max-w-2xl mx-auto">
+                    I work with a limited portfolio of companies per quarter. Engagements begin with a structural assessment.
+                </p>
+            </div>
+            
+            <div class="glass-container p-12 lg:p-16">
+                <form id="contact-form" class="space-y-8">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <label class="block text-xs tracking-[0.15em] uppercase text-text-muted mb-3 font-medium">Name</label>
+                            <input type="text" required class="input-field w-full" placeholder="Your full name">
+                        </div>
+                        <div>
+                            <label class="block text-xs tracking-[0.15em] uppercase text-text-muted mb-3 font-medium">Company</label>
+                            <input type="text" required class="input-field w-full" placeholder="Organization">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs tracking-[0.15em] uppercase text-text-muted mb-3 font-medium">Email</label>
+                        <input type="email" required class="input-field w-full" placeholder="your@domain.com">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs tracking-[0.15em] uppercase text-text-muted mb-3 font-medium">Current Structural Constraint</label>
+                        <textarea rows="5" required class="input-field w-full resize-none" placeholder="Describe the operational friction your organization is experiencing. Be specific."></textarea>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <label class="block text-xs tracking-[0.15em] uppercase text-text-muted mb-3 font-medium">Team Size</label>
+                            <select class="input-field w-full appearance-none cursor-pointer">
+                                <option>Select range</option>
+                                <option>1-10</option>
+                                <option>11-50</option>
+                                <option>51-200</option>
+                                <option>200+</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs tracking-[0.15em] uppercase text-text-muted mb-3 font-medium">Annual Revenue</label>
+                            <select class="input-field w-full appearance-none cursor-pointer">
+                                <option>Select range</option>
+                                <option>$1M - $5M</option>
+                                <option>$5M - $20M</option>
+                                <option>$20M - $100M</option>
+                                <option>$100M+</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button type="submit" class="btn-primary w-full md:w-auto">
+                            Request Assessment
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="form-success" class="hidden mt-10 p-6 border border-accent bg-[rgba(196,181,157,0.05)] rounded-sm">
+                    <p class="text-accent text-sm leading-relaxed">
+                        Acknowledged. I review all structural assessments personally and respond within 48 hours if there's alignment.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center text-xs text-text-muted tracking-widest uppercase">
+                <p>Confidentiality is structural, not optional.</p>
+                <p class="mt-2">All engagements begin under NDA.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-[rgba(196,181,157,0.08)] py-16 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-text-muted tracking-[0.15em] uppercase">
+                <div class="font-display text-lg tracking-[0.2em] text-text">KAYLEE-JANE</div>
+                <div>© 2024 Structural Intelligence</div>
+                <div>Operational Architecture</div>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Close mobile menu on link click
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+    });
+    
+    // Load portrait from hidden img src
+    const portraitSrc = document.getElementById('portrait-src');
+    const portrait = document.getElementById('portrait');
+    portrait.src = portraitSrc.src;
+    
+    // Form handling
+    const form = document.getElementById('contact-form');
+    const successMsg = document.getElementById('form-success');
+    
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.style.display = 'none';
+        successMsg.classList.remove('hidden');
+        
+        setTimeout(() => {
+            form.reset();
+            form.style.display = 'block';
+            successMsg.classList.add('hidden');
+        }, 6000);
+    });
+    
+    // Intersection Observer for fade-up animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.glass-container').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+        observer.observe(el);
+    });
+</script>
+</body>
+</html>
